@@ -18,7 +18,7 @@ while True:
 
     # 获取牧师名字和证道题目
     if('每日灵听' in title):
-        biaoti = re.findall('牧师：(.*?)\| 每日灵听', title)[0]
+        biaoti = re.findall(r'牧师：(.*?)\| 每日灵听', title)[0]
 
         if('】' in title):
             mushi = re.findall('】(.*?)牧师', title)[0]
@@ -26,9 +26,8 @@ while True:
             mushi = re.findall('(.*?)牧师', title)[0]
         
     elif('主日礼拜' in title):
-        biaoti = re.findall('牧师\：(.*)', title)[0]
-        print(biaoti)
-        mushi = re.findall('音视频\| (.*?)牧师', title)[0]
+        biaoti = re.findall(r'牧师\：(.*)', title)[0]
+        mushi = re.findall(r'音视频\ ?| (.*?)牧师', title)[1]
         
     print(mushi)
     riqi = re.findall('",s="(.*?)";', html)[0][2:]
