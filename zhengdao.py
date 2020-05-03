@@ -26,8 +26,9 @@ while True:
             mushi = re.findall('(.*?)牧师', title)[0]
         
     elif('主日礼拜' in title):
+        title = title.replace(' ', '')
         biaoti = re.findall(r'牧师\：(.*)', title)[0]
-        mushi = re.findall(r'音视频\ ?| (.*?)牧师', title)[1]
+        mushi = re.findall(r'音视频\|(.*?)牧师', title)[0]
         
     print(mushi)
     riqi = re.findall('",s="(.*?)";', html)[0][2:]
