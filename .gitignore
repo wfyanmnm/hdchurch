@@ -1,2 +1,4 @@
 .vscode/settings.json
 *.png
+config.ini
+test.py
