@@ -5,6 +5,8 @@ import urllib
 import configparser
 import base64
 import json
+from bs4 import BeautifulSoup
+import xerox
 
 config=configparser.ConfigParser()
 config.read('config.ini')
@@ -14,9 +16,7 @@ password = config['account']['Password']
 while True:
     # 海淀教堂公众号的每日灵听或者主日礼拜链接地址
     url = input("请输入文章链接：")
-    # 要作为封面图片的图片链接
-    imgurl = input("请输入图片链接：")
-
+    
     # 获取文章整个html
     response = requests.get(url)
     html=str(response.content,'utf-8')
@@ -47,14 +47,26 @@ while True:
     zhengdaotimu = riqi + '|' + mushi +'：' + biaoti
     print(zhengdaotimu)  
 
-    # 把远程图片存到本地，命名为test.png
-    urllib.request.urlretrieve(imgurl, "test.png")
+    soup = BeautifulSoup(html, 'html.parser')
 
-    # 把本地图片resize为375*250，并以日期命名
-    im = Image.open("test.png")
+    imgs = soup.find_all("img", class_="rich_pages")
+
+    images = []
+    for img in imgs:
+        images.append(img['data-src'])
+
+    for i in range(len(images)):
+        filename = "test" + str(i) + ".png"
+        urllib.request.urlretrieve(images[i], filename)
+        image = Image.open(filename)
+        image.show("title")
+
+    img_no = input("Please choose a image:[0, 1, 2]")
+    im = Image.open("test" + img_no + ".png")
     im_resized = im.resize((375, 250))
     filename = riqi + ".png"
     im_resized.save(filename)
+
     with open(filename, "rb") as image_file:
         filestring = base64.b64encode(image_file.read())
     filepath = "public://sermon/202007/" + filename
@@ -70,11 +82,17 @@ while True:
     title_zhengdao = input("如果证道题目错误，请重新输入：")
     if title_zhengdao == '':
         title_zhengdao = zhengdaotimu
-    body = input("请输入body内容：")
+    
+    body_true = 1
+    while body_true:
+        body_true = input("如果body内容已经复制，请直接回车，否则请输入0:")
+    body = xerox.paste()
+
     audio_link = input("请输入audio_link：")
     video_link = input("请输入video_link：")
 
     url_node = 'http://www.hdchurch.org/hds/node'
-    node = {'type':'sermon', 'title': title_zhengdao, "body":{"und":{"0":{"value": body}}}, "field_preacher":{"und": preacher}, "field_audio_link":{"und":{"0":{"url": audio_link}}}, "field_video_link":{"und":{"0":{"url": video_link}}}, "field_cover_image":{"und":{"0":{"fid": fid}}}, 'status': None, 'promote': '1'}
+    # 如果状态要设为未发布，则status设成None
+    node = {'type':'sermon', 'title': title_zhengdao, "body":{"und":{"0":{"value": body}}}, "field_preacher":{"und": preacher}, "field_audio_link":{"und":{"0":{"url": audio_link}}}, "field_video_link":{"und":{"0":{"url": video_link}}}, "field_cover_image":{"und":{"0":{"fid": fid}}}, 'status': 1, 'promote': '1'}
     r = requests.post(url_node, json=node, auth=(user, password))
     print(r.text)
