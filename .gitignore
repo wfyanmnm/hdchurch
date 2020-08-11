@@ -2,3 +2,4 @@
 *.png
 config.ini
 test.py
+.DS_Store
