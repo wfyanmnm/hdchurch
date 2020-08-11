@@ -8,6 +8,13 @@ import json
 from bs4 import BeautifulSoup
 import xerox
 
+# config.ini content
+# [account]
+# User = username
+# Password = password
+# UrlFile = file_upload_api
+# UrlNode = node_update_api
+
 config=configparser.ConfigParser()
 config.read('config.ini')
 user = config['account']['User']
