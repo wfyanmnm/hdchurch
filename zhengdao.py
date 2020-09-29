@@ -91,8 +91,10 @@ while True:
     
     fileimg = {'file[filepath]': filepath, 'file[file]': filestring, 'file[filename]': filename}
     r_file = requests.post(url_file, data=fileimg, auth=(user, password))
-    result = json.loads(r_file.text)
-    fid = result['fid']
+    result_text = r_file.text
+    result_fid = re.findall(r"<fid>(.*?)</fid>", result_text)
+    #result = json.loads(r_file.text)
+    fid = result_fid[0]
 
     # 证道的各个字段
     preacher = input("如果牧师名字错误，请重新输入：")
