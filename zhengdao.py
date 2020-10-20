@@ -38,17 +38,17 @@ while True:
     # 获取牧师名字和证道题目
     if('每日灵听' in title):
         try:
-            biaoti = re.findall(r'牧师\ ?：(.*?)\| 每日灵听', title)[0]
+            biaoti = re.findall(r'[牧师|传道]\ ?：(.*?)\| 每日灵听', title)[0]
         except:
             biaoti = input("证道题目：")
 
         try:
             if('】' in title):
-                mushi = re.findall('】(.*?)牧师', title)[0]
+                mushi = re.findall('】(.*?)[牧师|传道]', title)[0]
             else:
-                mushi = re.findall('(.*?)牧师', title)[0]
+                mushi = re.findall('(.*?)[牧师|传道]', title)[0]
         except:
-            mushi = input("牧师名字：")
+            mushi = input("证道人名字：")
         
     elif('主日礼拜' in title):
         title = title.replace(' ', '')
@@ -91,13 +91,11 @@ while True:
     
     fileimg = {'file[filepath]': filepath, 'file[file]': filestring, 'file[filename]': filename}
     r_file = requests.post(url_file, data=fileimg, auth=(user, password))
-    result_text = r_file.text
-    result_fid = re.findall(r"<fid>(.*?)</fid>", result_text)
-    #result = json.loads(r_file.text)
-    fid = result_fid[0]
+    result = json.loads(r_file.text)
+    fid = result['fid']
 
     # 证道的各个字段
-    preacher = input("如果牧师名字错误，请重新输入：")
+    preacher = input("如果证道人名字错误，请重新输入：")
     if preacher == '':
         preacher = mushi
     title_zhengdao = input("如果证道题目错误，请重新输入：")
