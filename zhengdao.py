@@ -58,7 +58,8 @@ while True:
     print(mushi)
 
     # 日期和日期所在的月
-    riqi = re.findall('",s="(.*?)";', html)[0][2:]
+    #riqi = re.findall('",s="(.*?)";', html)[0][2:]
+    riqi = re.findall('",i="(.*?)";', html)[0][2:]
     day = '20' + riqi
     month = day[0:4]+day[5:7]
 
