@@ -103,6 +103,10 @@ while True:
     if title_zhengdao == '':
         title_zhengdao = zhengdaotimu
     
+    # 使剪贴板有效 https://itectec.com/ubuntu/ubuntu-could-not-open-display-null-error-how-to-fix-this/
+    if not os.getenv('DISPLAY'):
+        os.environ['DISPLAY'] = ':0'
+
     # 从剪贴板获得证道经文
     body_true = 1
     while body_true:
