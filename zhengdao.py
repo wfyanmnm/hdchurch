@@ -91,7 +91,8 @@ while True:
     filepath = "public://sermon/" + month + "/" + filename
     
     fileimg = {'file[filepath]': filepath, 'file[file]': filestring, 'file[filename]': filename}
-    r_file = requests.post(url_file, data=fileimg, auth=(user, password))
+    headers = {'Accept': 'application/json'}
+    r_file = requests.post(url_file, data=fileimg, auth=(user, password), headers=headers)
     result = json.loads(r_file.text)
     fid = result['fid']
 
