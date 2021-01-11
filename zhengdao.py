@@ -7,6 +7,7 @@ import base64
 import json
 from bs4 import BeautifulSoup
 import xerox
+import os
 
 # config.ini content
 # [account]
