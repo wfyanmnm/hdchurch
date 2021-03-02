@@ -101,6 +101,9 @@ while True:
     preacher = input("如果证道人名字错误，请重新输入：")
     if preacher == '':
         preacher = mushi
+    else:
+        zhengdaotimu = riqi + '|' + preacher +'：' + biaoti
+        print(zhengdaotimu)
     title_zhengdao = input("如果证道题目错误，请重新输入：")
     if title_zhengdao == '':
         title_zhengdao = zhengdaotimu
