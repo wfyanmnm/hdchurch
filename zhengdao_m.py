@@ -130,7 +130,7 @@ while True:
     body = xerox.paste()
 
     audio_link = input("请输入audio_link：")
-    video_link = input("请输入video_link：")
+    # video_link = input("请输入video_link：")
 
     # 如果状态要设为未发布，则status设成None
     node = {'type':'sermon', 'title': title_zhengdao, "body":{"und":{"0":{"value": body}}}, "field_preacher":{"und": preacher}, "field_audio_link":{"und":{"0":{"url": audio_link}}}, "field_video_link":{"und":{"0":{"url": video_link}}}, "field_cover_image":{"und":{"0":{"fid": fid}}}, 'status': 1, 'promote': '1'}
