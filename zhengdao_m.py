@@ -6,8 +6,8 @@ import configparser
 import base64
 import json
 from bs4 import BeautifulSoup
-import xerox
 import os
+import win32clipboard
 
 # config.ini content
 # [account]
@@ -127,7 +127,12 @@ while True:
     body_true = 1
     while body_true:
         body_true = input("如果body内容已经复制，请直接回车，否则请输入0:")
-    body = xerox.paste()
+    win32clipboard.OpenClipboard()
+    if win32clipboard.IsClipboardFormatAvailable(win32clipboard.CF_TEXT):
+    # 获取剪贴板中的数据
+      data = win32clipboard.GetClipboardData(win32clipboard.CF_TEXT)
+      body = data.decode('gbk')
+    win32clipboard.CloseClipboard()
 
     audio_link = input("请输入audio_link：")
     # video_link = input("请输入video_link：")
